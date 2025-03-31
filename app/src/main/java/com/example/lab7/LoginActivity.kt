@@ -1,58 +1,52 @@
 package com.example.lab7
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
 
+    private var isPasswordVisible = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-
-        if (sharedPref.getBoolean("isLoggedIn", false)) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-            return
-        }
-
         setContentView(R.layout.activity_login)
 
         val edUsername = findViewById<EditText>(R.id.ed_username)
         val edPassword = findViewById<EditText>(R.id.ed_password)
+        val btnTogglePassword = findViewById<ImageButton>(R.id.btn_toggle_password)
         val btnLogin = findViewById<Button>(R.id.btn_login)
         val btnSignUp = findViewById<Button>(R.id.btn_signup)
+
+        btnTogglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                edPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                btnTogglePassword.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
+            } else {
+                edPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                btnTogglePassword.setImageResource(android.R.drawable.ic_menu_view)
+            }
+            edPassword.setSelection(edPassword.text.length)
+        }
 
         btnLogin.setOnClickListener {
             val enteredUsername = edUsername.text.toString()
             val enteredPassword = edPassword.text.toString()
 
-            val savedUsername = sharedPref.getString("Username", null)
-            val savedPassword = sharedPref.getString("Password", null)
-
-            if (enteredUsername == savedUsername && enteredPassword == savedPassword) {
+            if (enteredUsername == "admin" && enteredPassword == "1234") {
                 Toast.makeText(this, "Вход выполнен!", Toast.LENGTH_SHORT).show()
-
-                val editor = sharedPref.edit()
-                editor.putBoolean("isLoggedIn", true)
-                editor.apply()
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
             } else {
                 Toast.makeText(this, "Неверный логин или пароль", Toast.LENGTH_SHORT).show()
             }
         }
 
         btnSignUp.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            startActivity(intent)
+            Toast.makeText(this, "Переход на регистрацию", Toast.LENGTH_SHORT).show()
         }
     }
 }
