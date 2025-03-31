@@ -12,21 +12,19 @@
         android:id="@+id/ed_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите логин"
+        android:hint="Логин"
         android:padding="10dp"
-        android:background="@android:color/darker_gray"
-        android:textSize="16sp" />
+        android:background="@android:drawable/editbox_background" />
 
     <EditText
         android:id="@+id/ed_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите пароль"
-        android:padding="10dp"
-        android:background="@android:color/darker_gray"
-        android:textSize="16sp"
+        android:hint="Пароль"
         android:inputType="textPassword"
-        android:layout_marginTop="10dp" />
+        android:padding="10dp"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="10dp"/>
 
     <Button
         android:id="@+id/btn_login"
@@ -36,8 +34,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:textColor="@android:color/white"
-        android:textSize="18sp" />
-
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/btn_signup"
@@ -47,6 +44,5 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="@android:color/holo_green_dark"
         android:textColor="@android:color/white"
-        android:textSize="18sp" />
-
+        android:textSize="18sp"/>
 </LinearLayout>
