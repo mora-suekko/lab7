@@ -35,8 +35,13 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            val enteredUsername = edUsername.text.toString()
-            val enteredPassword = edPassword.text.toString()
+            val enteredUsername = edUsername.text.toString().trim()
+            val enteredPassword = edPassword.text.toString().trim()
+
+            if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
+                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             if (enteredUsername == "admin" && enteredPassword == "1234") {
                 Toast.makeText(this, "Вход выполнен!", Toast.LENGTH_SHORT).show()
@@ -46,6 +51,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnSignUp.setOnClickListener {
+            val enteredUsername = edUsername.text.toString().trim()
+            val enteredPassword = edPassword.text.toString().trim()
+
+            if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
+                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             Toast.makeText(this, "Переход на регистрацию", Toast.LENGTH_SHORT).show()
         }
     }
