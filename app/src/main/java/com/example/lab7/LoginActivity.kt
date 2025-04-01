@@ -1,5 +1,7 @@
 package com.example.lab7
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.widget.Button
@@ -22,14 +24,16 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.btn_login)
         val btnSignUp = findViewById<Button>(R.id.btn_signup)
 
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val savedUsername = sharedPref.getString("Username", "")
+        val savedPassword = sharedPref.getString("Password", "")
+
         btnTogglePassword.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
-            if (isPasswordVisible) {
-                edPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                btnTogglePassword.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
+            edPassword.inputType = if (isPasswordVisible) {
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             } else {
-                edPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                btnTogglePassword.setImageResource(android.R.drawable.ic_menu_view)
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
             edPassword.setSelection(edPassword.text.length)
         }
@@ -43,23 +47,19 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (enteredUsername == "admin" && enteredPassword == "1234") {
-                Toast.makeText(this, "Вход выполнен!", Toast.LENGTH_SHORT).show()
+            if (enteredUsername == savedUsername && enteredPassword == savedPassword) {
+                val editor = sharedPref.edit()
+                editor.putBoolean("isLoggedIn", true)
+                editor.apply()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
             } else {
                 Toast.makeText(this, "Неверный логин или пароль", Toast.LENGTH_SHORT).show()
             }
         }
 
         btnSignUp.setOnClickListener {
-            val enteredUsername = edUsername.text.toString().trim()
-            val enteredPassword = edPassword.text.toString().trim()
-
-            if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
-                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            Toast.makeText(this, "Переход на регистрацию", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
     }
 }

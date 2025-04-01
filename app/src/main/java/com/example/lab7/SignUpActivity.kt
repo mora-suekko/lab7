@@ -23,9 +23,9 @@ class SignUpActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
         btnCreateUser.setOnClickListener {
-            val username = edUsername.text.toString()
-            val password = edPassword.text.toString()
-            val confirmPassword = edConfirmPwd.text.toString()
+            val username = edUsername.text.toString().trim()
+            val password = edPassword.text.toString().trim()
+            val confirmPassword = edConfirmPwd.text.toString().trim()
 
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show()
@@ -43,11 +43,10 @@ class SignUpActivity : AppCompatActivity() {
             editor.apply()
 
             Toast.makeText(this, "Аккаунт создан!", Toast.LENGTH_SHORT).show()
-
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+
         btnBack.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()

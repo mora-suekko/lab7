@@ -13,16 +13,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btnLogout = findViewById<Button>(R.id.btn_logout)
-
         val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+
+        if (!sharedPref.getBoolean("isLoggedIn", false)) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
 
         btnLogout.setOnClickListener {
             val editor = sharedPref.edit()
-            editor.remove("isLoggedIn")
+            editor.putBoolean("isLoggedIn", false)
             editor.apply()
-
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }
